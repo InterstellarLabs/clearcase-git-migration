@@ -1,0 +1,9 @@
+{
+  "versions": [
+    {"element": "lib/core.py", "version": "/main/1", "date": "20220505.101010", "user": "mlee", "op": "checkin",
+     "comment": "Create core library", "labels": ["V1"], "content": "def hello():\n    return 'hello'\n"},
+    {"element": "lib/core.py", "version": "/main/2", "date": "20220620.160000", "user": "jdoe", "op": "checkin",
+     "comment": "Add greeting argument", "attrs": {"change_request": "CR-7"},
+     "content": "def hello(name='world'):\n    return f'hello {name}'\n"}
+  ]
+}

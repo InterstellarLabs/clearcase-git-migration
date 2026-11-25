@@ -1,0 +1,132 @@
+{
+ "versions": [
+  {
+   "element": "cmake/CompilerWarnings.cmake",
+   "version": "/main/0",
+   "date": "20240610.090000",
+   "user": "jdoe",
+   "op": "mkelem",
+   "comment": "Created element."
+  },
+  {
+   "element": "cmake/CompilerWarnings.cmake",
+   "version": "/main/1",
+   "date": "20240610.090007",
+   "user": "jdoe",
+   "op": "checkin",
+   "comment": "Create shared compiler warning policy",
+   "content": "function(apply_warning_policy target)\n  target_compile_options(${target} PRIVATE -Wall -Wextra)\nendfunction()\n",
+   "labels": [
+    "BUILD_COMMON_1.0"
+   ]
+  },
+  {
+   "element": "cmake/Sanitizers.cmake",
+   "version": "/main/0",
+   "date": "20240610.090200",
+   "user": "jdoe",
+   "op": "mkelem",
+   "comment": "Created element."
+  },
+  {
+   "element": "cmake/Sanitizers.cmake",
+   "version": "/main/1",
+   "date": "20240610.090207",
+   "user": "jdoe",
+   "op": "checkin",
+   "comment": "Add sanitizer toggle for debug builds",
+   "content": "option(ENABLE_SANITIZERS \"Build with address sanitizer\" OFF)\nif(ENABLE_SANITIZERS)\n  add_compile_options(-fsanitize=address)\n  add_link_options(-fsanitize=address)\nendif()\n",
+   "labels": [
+    "BUILD_COMMON_1.0",
+    "BUILD_COMMON_2.0",
+    "BUILD_COMMON_2.1"
+   ]
+  },
+  {
+   "element": "cmake/CompilerWarnings.cmake",
+   "version": "/main/2",
+   "date": "20250218.140000",
+   "user": "rpatel",
+   "op": "checkin",
+   "comment": "Enable -Wconversion for C++17 targets",
+   "attrs": {
+    "CR_ID": "BC00000031"
+   },
+   "content": "function(apply_warning_policy target)\n  target_compile_options(${target} PRIVATE -Wall -Wextra -Wconversion)\nendfunction()\n",
+   "labels": [
+    "BUILD_COMMON_2.0",
+    "BUILD_COMMON_2.1"
+   ]
+  },
+  {
+   "element": "triggers/mkelem_denylist.txt",
+   "version": "/main/0",
+   "date": "20250318.100000",
+   "user": "jdoe",
+   "op": "mkelem",
+   "comment": "Created element."
+  },
+  {
+   "element": "triggers/mkelem_denylist.txt",
+   "version": "/main/1",
+   "date": "20250318.100007",
+   "user": "jdoe",
+   "op": "checkin",
+   "comment": "Add deny-list for mkelem trigger",
+   "attrs": {
+    "CR_ID": "BC00000040"
+   },
+   "content": "# Basename globs refused by the NO_BUILD_ARTIFACTS mkelem trigger (read by block_artifacts.sh)\n*.o\n*.obj\n*.a\n*.lib\n*.so\n*.dll\n*.exe\n*.pdb\n*.log\n*.tmp\n*.bak\n*~\nThumbs.db\n.DS_Store\n"
+  },
+  {
+   "element": "triggers/block_artifacts.sh",
+   "version": "/main/0",
+   "date": "20250318.100500",
+   "user": "jdoe",
+   "op": "mkelem",
+   "comment": "Created element."
+  },
+  {
+   "element": "triggers/block_artifacts.sh",
+   "version": "/main/1",
+   "date": "20250318.100507",
+   "user": "jdoe",
+   "op": "checkin",
+   "comment": "Add pre-op mkelem trigger script",
+   "attrs": {
+    "CR_ID": "BC00000040"
+   },
+   "content": "#!/bin/sh\n# Pre-op trigger on mkelem: refuse build output and view-private leftovers.\n# ClearCase sets CLEARCASE_PN (path being added) and CLEARCASE_USER.\nDENYLIST=/vobs/build_common/triggers/mkelem_denylist.txt\nname=`basename \"$CLEARCASE_PN\"`\nwhile read pattern; do\n  case \"$pattern\" in\n    ''|\\#*) continue ;;\n  esac\n  case \"$name\" in\n    $pattern)\n      echo \"mkelem blocked for $CLEARCASE_USER: '$name' matches deny pattern '$pattern'\" >&2\n      exit 1 ;;\n  esac\ndone < \"$DENYLIST\"\nexit 0\n",
+   "labels": [
+    "BUILD_COMMON_2.1"
+   ]
+  },
+  {
+   "element": "triggers/mkelem_denylist.txt",
+   "version": "/main/2",
+   "date": "20250430.140000",
+   "user": "rpatel",
+   "op": "checkin",
+   "comment": "Also block ClearCase merge and keep leftovers",
+   "attrs": {
+    "CR_ID": "BC00000047"
+   },
+   "content": "# Basename globs refused by the NO_BUILD_ARTIFACTS mkelem trigger (read by block_artifacts.sh)\n*.o\n*.obj\n*.a\n*.lib\n*.so\n*.dll\n*.exe\n*.pdb\n*.log\n*.tmp\n*.bak\n*~\nThumbs.db\n.DS_Store\n# ClearCase merge/keep leftovers\n*.keep\n*.contrib\n*.merge\n*.mkelem\n.copyarea.db\n",
+   "labels": [
+    "BUILD_COMMON_2.1"
+   ]
+  }
+ ],
+ "triggers": [
+  {
+   "name": "NO_BUILD_ARTIFACTS",
+   "type": "element",
+   "scope": "all",
+   "preop": "mkelem",
+   "created": "20250320.090000",
+   "user": "jdoe",
+   "exec": "sh /vobs/build_common/triggers/block_artifacts.sh",
+   "comment": "Block build output and view-private leftovers from being added to the VOB"
+  }
+ ]
+}

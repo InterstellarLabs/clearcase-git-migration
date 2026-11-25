@@ -1,0 +1,23 @@
+{
+  "versions": [
+    {"element": "src/main.c", "version": "/main/1", "date": "20230110.100000", "user": "jdoe", "op": "checkin",
+     "comment": "Initial import", "content": "int main(void) { return 0; }\n"},
+    {"element": "src/util.c", "version": "/main/1", "date": "20230110.100030", "user": "jdoe", "op": "checkin",
+     "comment": "Initial import", "labels": ["REL_1.0"], "content": "int add(int a, int b) { return a + b; }\n"},
+    {"element": "README.txt", "version": "/main/1", "date": "20230110.100045", "user": "jdoe", "op": "checkin",
+     "comment": "Initial import", "labels": ["REL_1.0"], "content": "Sample app\n"},
+    {"element": "src/main.c", "version": "/main/2", "date": "20230201.143000", "user": "asmith", "op": "checkin",
+     "comment": "Fix null check\n\nSee defect tracker for details.", "labels": ["REL_1.0"],
+     "attrs": {"bug": "101", "status": "fixed"}, "content": "int main(void) {\n  /* null check */\n  return 0;\n}\n"},
+    {"element": "src/login.c", "version": "/main/feature_login/1", "date": "20230210.090000", "user": "asmith", "op": "checkin",
+     "comment": "Add login module", "attrs": {"story": "US-42"}, "content": "int login(void) { return 1; }\n"},
+    {"element": "src/main.c", "version": "/main/feature_login/2", "date": "20230210.093000", "user": "asmith", "op": "checkin",
+     "comment": "Call login from main", "content": "int main(void) {\n  /* null check */\n  return login();\n}\n"},
+    {"element": "src/main.c", "version": "/main/3", "date": "20230301.120000", "user": "jdoe", "op": "checkin",
+     "comment": "Refactor main", "labels": ["REL_2.0"], "content": "int main(void) {\n  /* null check */\n  return 0; /* refactored */\n}\n"},
+    {"element": "src/util.c", "version": "/main/2", "date": "20230301.120030", "user": "jdoe", "op": "checkin",
+     "comment": "Refactor main", "labels": ["REL_2.0"], "content": "int add(int a, int b) { return a + b; } /* v2 */\n"},
+    {"element": "README.txt", "version": "/main/2", "date": "20230315.080000", "user": "jdoe", "op": "rmname",
+     "comment": "Remove obsolete README"}
+  ]
+}
